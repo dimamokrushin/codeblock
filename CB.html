@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My CodeBlock</title>
+    <style >
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .block {
+            background: white;
+            border: 2px solid #2196F3;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .block h3 {
+            margin-top: 0;
+            color: #2196F3;
+        }
+        
+        .variables-panel {
+            background: #333;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        input, select {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        
+        
+        
+        .info {
+            color: #666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Интерпретатор переменных</h1>
+    
+    <div class="variables-panel" id="variables-panel">
+        Текущие переменные: <span id="variables-display">{ }</span>
+    </div>
+
+    <div class="block">
+        <h3>Блок объявления переменных</h3>
+        
+        <label>Введите имена переменных:</label><br>
+        <input type="text" id="var-names" value="a, b, c" size="30">
+        <button onclick="declareVariables()">Объявить</button>
+        
+        
+    </div>
+
+    <div class="block">
+        <h3>Блок присваивания</h3>
+        
+        <select id="var-select">
+            <option value="a">a</option>
+            <option value="b">b</option>
+            <option value="c">c</option>
+        </select>
+        
+        <span> = </span>
+        
+        <input type="text" id="var-value" value="10" size="10">
+        
+        <button onclick="assignVariable()">Присвоить</button>
+        
+        
+    </div>
+
+    <button onclick="resetAll()" style="background: #f44336;">Сбросить всё</button>
+
+    <script>
+        
+        let variables = {
+            a: 0,
+            b: 0,
+            c: 0
+        };
+        
+        
+        function updateVariablesDisplay() {
+            let text = '{ ';
+            for (let name in variables) {
+                text += name + ': ' + variables[name] + ', ';
+            }
+            text = text.slice(0, -2) + ' }';
+            document.getElementById('variables-display').innerText = text;
+        }
+        
+        function updateSelect() {
+            let select = document.getElementById('var-select');
+            select.innerHTML = '';
+            
+            for (let name in variables) {
+                let option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                select.appendChild(option);
+            }
+        }
+        
+        
+        function declareVariables() {
+            let inputText = document.getElementById('var-names').value;
+            
+            let names = inputText.split(',').map(name => name.trim());
+            
+            let newCount = 0;
+            
+            for (let i = 0; i < names.length; i++) {
+                let name = names[i];
+                
+                if (name !== '') {
+                    variables[name] = 0;
+                    newCount++;
+                }
+            }
+            
+            updateSelect();
+            
+            updateVariablesDisplay();
+            
+            if (newCount > 0) {
+                alert('Добавлено переменных: ' + newCount);
+            } else {
+                alert('Нет имён для объявления');
+            }
+        }
+        
+        
+        function assignVariable() {
+            let varName = document.getElementById('var-select').value;
+            
+            let valueStr = document.getElementById('var-value').value;
+            
+            let value = parseInt(valueStr);
+            
+            if (isNaN(value)) {
+                alert('Ошибка: "' + valueStr + '" не является числом');
+                return;
+            }
+            
+            let oldValue = variables[varName];
+            
+            variables[varName] = value;
+            
+            alert(varName + ' = ' + value + ' (было ' + oldValue + ')');
+            
+            updateVariablesDisplay();
+        }
+        
+        
+        function resetAll() {
+            variables = {
+                a: 0,
+                b: 0,
+                c: 0
+            };
+            
+            updateSelect();
+            updateVariablesDisplay();
+            
+            alert('Всё сброшено к начальным значениям');
+        }
+        
+        
+        updateSelect();
+        
+        updateVariablesDisplay();
+    </script>
+
+</body>
+</html>
