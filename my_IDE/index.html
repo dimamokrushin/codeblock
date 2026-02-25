@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My CodeBlock</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Интерпретатор переменных</h1>
+    
+    <div class="variables-panel" id="variables-panel">
+        Текущие переменные: <span id="variables-display">{ }</span>
+    </div>
+
+    <div class="block">
+        <h3>Блок объявления переменных</h3>
+        <input type="text" id="var-names" value="a, b, c" size="30">
+        <button onclick="declareVariables()">Объявить</button>
+    </div>
+
+    <div class="block">
+        <h3>Блок присваивания</h3>
+        <select id="var-select">
+            <option value="a">a</option>
+            <option value="b">b</option>
+            <option value="c">c</option>
+        </select>
+        <span> = </span>
+        <input type="text" id="var-value" value="10" size="10">
+        <button onclick="assignVariable()">Присвоить</button>
+    </div>
+
+    <div class="block">
+    <h3>Блок IF</h3>
+    
+    <div class="if-condition">
+        <select id="if-left-var">
+            <option value="a">a</option>
+            <option value="b">b</option>
+            <option value="c">c</option>
+        </select>
+        
+        <select id="if-operator">
+            <option value=">">&gt; </option>
+            <option value="<">&lt; </option>
+            <option value="==">== </option>
+            <option value="!=">!= </option>
+            <option value=">=">&gt;= </option>
+            <option value="<=">&lt;= </option>
+        </select>
+        
+        <input type="text" id="if-right-value" value="5" size="10" placeholder="Значение">
+    </div>
+    
+    <div class="if-commands">
+        <h4>Команды для выполнения (по одной на строку):</h4>
+        <textarea id="if-commands" rows="5" cols="40"></textarea>
+    </div>
+    
+    <button onclick="executeIf()">Сравнить</button>
+    <div id="if-result" class="if-result"></div>
+    </div>
+
+
+    <button onclick="resetAll()" style="background: #f44336;">Сбросить всё</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
